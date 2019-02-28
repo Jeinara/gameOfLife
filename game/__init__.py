@@ -8,7 +8,7 @@
 
 
 import random
-import tkinter
+import tkinter as tk
 
 
 def new_cell_list(n):
@@ -33,7 +33,7 @@ def born_and_death(cell_list):
             c = 0
             for i1 in range(i-1, i+2):
                 for j1 in range(j-1, j+2):
-                    if ((i1 != i) and (j1 != j)) or (i1 != i) or(j1 != j):
+                    if (i1 != i) or(j1 != j):
                         k = len(cell_list[0])-1 if i1 == -1 else 0 if i1 == len(cell_list[0]) else i1
                         d = len(cell_list[0])-1 if j1 == -1 else 0 if j1 == len(cell_list[0]) else j1
                         c += cell_list[k][d]
@@ -60,20 +60,37 @@ def next_step(born_list, death_list):
     return cell_list
 
 
-def create_window():
-    pass
+def create_window(root):
+    root.minsize(600, 600)
+    root.maxsize(600, 600)
+    canvas = tk.Canvas(root, width=600, height=600, bg='white')
+    canvas.pack()
+    return canvas
 
 
-def update_window():
-    pass
+def update_window(cell_list):
+    canvas.delete('all')
+    i_column = 600/len(cell_list[0])
+    j_row = 600/len(cell_list)
+    for i in range(len(cell_list)):
+        for j in range(len(cell_list[0])):
+            fill = 'white' if cell_list[i][j] == 0 else 'green'
+            canvas.create_rectangle(j_row*j, i_column*i, j_row*(j+1), i_column*(i+1), fill=fill)
+    canvas.update()
 
 
 if __name__ == '__main__':
     cell_list = new_cell_list(5)
-    for i in range(len(cell_list)):
-        print(cell_list[i])
-    ce = born_and_death(cell_list)
-    cell_list = next_step(ce[0], ce[1])
-    print('_____________________')
-    for i in range(len(cell_list)):
-        print(cell_list[i])
+    # cell_list = [[1, 1, 0, 0, 1], [1, 1, 0, 0, 1], [0, 1, 0, 1, 0], [1, 0, 1, 1, 0], [0, 0, 1, 1, 0]]
+    root = tk.Tk()
+    canvas = create_window(root)
+    root.after(10, update_window(cell_list))
+    while(True):
+        ce = born_and_death(cell_list)
+        cell_list = next_step(ce[0], ce[1])
+        for i in range(len(cell_list)):
+            print(cell_list[i])
+        print('____________')
+        root.after(5000, update_window(cell_list))
+    root.mainloop()
+
