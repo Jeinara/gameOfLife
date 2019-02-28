@@ -8,6 +8,7 @@
 
 
 import random
+import tkinter
 
 
 def new_cell_list(n):
@@ -59,9 +60,16 @@ def next_step(born_list, death_list):
     return cell_list
 
 
+def create_window():
+    pass
+
+
+def update_window():
+    pass
+
+
 if __name__ == '__main__':
     cell_list = new_cell_list(5)
-#    cell_list = [[1, 1, 0, 0, 1], [1, 1, 0, 0, 1], [0, 1, 0, 1, 0], [1, 0, 1, 1, 0], [0, 0, 1, 1, 0]]
     for i in range(len(cell_list)):
         print(cell_list[i])
     ce = born_and_death(cell_list)
