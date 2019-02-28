@@ -18,15 +18,35 @@ def new_cell_list(n):
         for j in range(n):
             row_list.append(random.randint(0, 1))
         cell_list.append(row_list)
+
     return cell_list
 
 
-def new_generation(cell_list):
-    pass
-
-
-def death(cell_list):
-    pass
+def born_and_death(cell_list):
+    born_list = []
+    death_list = []
+    for i in range(len(cell_list)):
+        born_row_list = list()
+        death_row_list = list()
+        for j in range(len(cell_list[0])):
+            c = 0
+            for i1 in range(i-1, i+2):
+                for j1 in range(j-1, j+2):
+                    if (i1 != i) & (j1 != j):
+                        k = len(cell_list[0])-1 if i1 == -1 else 0 if i1 == len(cell_list[0]) else i1
+                        d = len(cell_list[0])-1 if j1 == -1 else 0 if j1 == len(cell_list[0]) else j1
+                        c += cell_list[k][d]
+            if (c >= 3) & (cell_list[i][j] == 0):
+                born_row_list.append(1)
+            else:
+                born_row_list.append(0)
+            if (c in range(2, 3)) & (cell_list[i][j] == 1):
+                death_row_list.append(1)
+            else:
+                death_row_list.append(0)
+        born_list.append(born_row_list)
+        death_list.append(death_row_list)
+    return born_list, death_list
 
 
 def next_step(death_list, life_list):
@@ -34,4 +54,6 @@ def next_step(death_list, life_list):
 
 
 if __name__ == '__main__':
-    print(new_cell_list(5))
+    cell_list = new_cell_list(5)
+    print(cell_list)
+    print(born_and_death(cell_list))
