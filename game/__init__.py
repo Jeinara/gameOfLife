@@ -37,11 +37,11 @@ def born_and_death(cell_list):
                         k = len(cell_list[0])-1 if i1 == -1 else 0 if i1 == len(cell_list[0]) else i1
                         d = len(cell_list[0])-1 if j1 == -1 else 0 if j1 == len(cell_list[0]) else j1
                         c += cell_list[k][d]
-            if (c >= 3) and (cell_list[i][j] == 0):
+            if (c == 3) and (cell_list[i][j] == 0):
                 born_row_list.append(1)
             else:
                 born_row_list.append(0)
-            if (c in range(2, 3)) and (cell_list[i][j] == 1):
+            if ((c >= 2) and (c <= 3)) and (cell_list[i][j] == 1):
                 death_row_list.append(1)
             else:
                 death_row_list.append(0)
@@ -80,17 +80,20 @@ def update_window(cell_list):
 
 
 if __name__ == '__main__':
-    cell_list = new_cell_list(5)
+    cell_list = new_cell_list(25)
     # cell_list = [[1, 1, 0, 0, 1], [1, 1, 0, 0, 1], [0, 1, 0, 1, 0], [1, 0, 1, 1, 0], [0, 0, 1, 1, 0]]
     root = tk.Tk()
     canvas = create_window(root)
-    root.after(10, update_window(cell_list))
+    for h in range(len(cell_list)):
+        print(cell_list[h])
+    print('____________')
+    root.after(1000, update_window(cell_list))
     while(True):
         ce = born_and_death(cell_list)
         cell_list = next_step(ce[0], ce[1])
-        for i in range(len(cell_list)):
-            print(cell_list[i])
+        for h in range(len(cell_list)):
+            print(cell_list[h])
         print('____________')
-        root.after(5000, update_window(cell_list))
+        root.after(1000, update_window(cell_list))
     root.mainloop()
 
